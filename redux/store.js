@@ -1,17 +1,23 @@
-import { createContext, useReducer } from 'react';
-import { reducer } from './pokemons/reducers';
+import { createContext, useReducer, useContext } from 'react';
+import { reducer, initialState } from './pokemons/reducers';
 
-export const initialState = {
-  pokemons: [],
-};
-
-const PokemonContext = createContext();
+export const stateContext = createContext(initialState);
+export const dispatchContext = createContext();
 
 export const Provider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <PokemonContext.Provider value={{ state, dispatch }}>
-      {children}
-    </PokemonContext.Provider>
+    <dispatchContext.Provider value={dispatch}>
+      <stateContext.Provider value={state}>{children}</stateContext.Provider>
+    </dispatchContext.Provider>
   );
+};
+
+export const useDispatch = () => {
+  return useContext(dispatchContext);
+};
+
+export const useGrobalState = (property) => {
+  const state = useContext(stateContext);
+  return state[property];
 };

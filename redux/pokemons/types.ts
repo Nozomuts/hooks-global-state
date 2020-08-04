@@ -1,5 +1,5 @@
 export const ActionTypes = {
-  setPokemons: 'SET_POKEMONS',
+  fetchPokemons: 'FETCH_POKEMONS',
 } as const;
 
 export type PokeData = {
@@ -7,9 +7,17 @@ export type PokeData = {
   url: string;
 };
 
-type SetPokemonsAction = {
-  type: typeof ActionTypes.setPokemons;
-  payload: PokeData[];
+export type PokeState = {
+  pokemons: PokeData[],
+  errorMessage: string,
+}
+
+type FetchPokemonsAction = {
+  type: typeof ActionTypes.fetchPokemons;
+  payload: {
+    pokemons: PokeData[];
+    errorMessage: string;
+  };
 };
 
-export type PokemonsAction = SetPokemonsAction;
+export type PokemonsAction = FetchPokemonsAction;
