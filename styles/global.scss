@@ -1,13 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Suwannaphum&display=swap');
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   line-height: 1.6;
   font-size: 18px;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.ball {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+svg {
+  height: 400px;
+  width: 400px;
+}
+
+.name {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 30px;
+  margin-left: 30vw;
+  margin-top: 10px;
 }

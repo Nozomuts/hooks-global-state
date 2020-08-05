@@ -1,29 +1,43 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { PokeData } from '../redux/pokemons/types';
 import { fetchPokemons } from '../redux/pokemons/actions';
-import { useDispatch, useGrobalState } from '../redux/store';
+import { useDispatch } from '../redux/store';
+import Axios from 'axios';
+import { useEffect } from 'react';
+import Ball from '../components/Ball';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const globalState = useGrobalState('pokemons')
 
-  const handleClick1 = () => {
-    dispatch(fetchPokemons());
-  }
-  const handleClick2 = () => {
-    console.log(globalState);
-  }
+  useEffect(() => {
+    fetchPokemonsAsync();
+  }, []);
+
+  const fetchPokemonsAsync = async () => {
+    let pokemons: PokeData[] = [];
+    let errorMessage = '';
+
+    await Axios.get('https://pokeapi.co/api/v2/pokemon?limit=100&offset=0')
+      .then((res) => {
+        pokemons = res.data.results;
+      })
+      .catch((err) => {
+        errorMessage = err;
+      });
+    dispatch(fetchPokemons(pokemons, errorMessage));
+  };
 
   return (
     <>
       <Head>
-        <title>Next.js Template</title>
+        <title>Get Pokemon!</title>
       </Head>
-      <button onClick={handleClick1}>GET!</button>
-      <button onClick={handleClick2}>GET!</button>
-      {globalState.map((pokemon: PokeData) => {
-        <h1>{pokemon.name}</h1>;
-      })}
+      <Link href='/pokemons'>
+        <a className='ball'>
+          <Ball/>
+        </a>
+      </Link>
     </>
   );
 };
